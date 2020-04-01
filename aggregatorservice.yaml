@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: "2020-04-01T13:56:03Z"
+  generation: 2
+  labels:
+    app: aggregatorservice
+  name: aggregatorservice
+  namespace: default
+  resourceVersion: "9419"
+  selfLink: /apis/apps/v1/namespaces/default/deployments/aggregatorservice
+  uid: 866a81cf-7420-11ea-8333-42010a80001a
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: aggregatorservice
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: aggregatorservice
+    spec:
+      containers:
+      - env:
+        - name: OrderServiceUrl
+          valueFrom:
+            configMapKeyRef:
+              key: OrderServiceUrl
+              name: aggregatorservice-config-87sv
+        - name: UserServiceUrl
+          valueFrom:
+            configMapKeyRef:
+              key: UserServiceUrl
+              name: aggregatorservice-config-87sv
+        image: anuj1508/nagp_aggregatorservice:tag1
+        imagePullPolicy: IfNotPresent
+        name: nagp-aggregatorservice-1
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: "2020-04-01T13:56:07Z"
+    lastUpdateTime: "2020-04-01T13:56:07Z"
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: "2020-04-01T13:56:03Z"
+    lastUpdateTime: "2020-04-01T13:56:07Z"
+    message: ReplicaSet "aggregatorservice-6d5849889f" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
